@@ -1,0 +1,82 @@
+<div>
+  <form [formGroup]="tForm">
+    <div class="form-container">
+      <div class="row columns">
+        <h1>Create Ticket</h1>
+
+<label> Project
+  <input type="text" formControlName="projectname" [(ngModel)]="pro" placeholder="Enter your Project Name" />
+</label>
+<div class="alert" *ngIf=" !tForm.controls['projectname'].valid && tForm.controls['projectname'].touched">
+  {{ titleAlert }} </div>
+
+<label> Summary
+  <input type="text" formControlName="summary" [(ngModel)]="summ" placeholder="Summary" />
+</label>
+<div class="alert"  *ngIf="  !tForm.controls['summary'].valid && tForm.controls['summary'].touched">
+  {{ titleAlert }} </div>
+
+<label>Issue
+<select class="form-control" [(ngModel)]="iss" [ngModelOptions]="{standalone: true}">
+<option>--Select--</option>
+<option *ngFor="let issue of issues" [value]="issue.issues_name">{{issue.issues_name}}</option>
+</select>
+</label>
+
+<label>Priority
+<select class="form-control" [(ngModel)]="pri" [ngModelOptions]="{standalone: true}">
+<option>--Select--</option>
+<option *ngFor="let category of categories" [value]="category.category_name">{{category.category_name}}</option>
+</select>
+</label>
+
+<label> Assigne
+<select class="form-control" [(ngModel)]="ass" [ngModelOptions]="{standalone: true}">
+<option>--Select--</option>
+<option *ngFor="let assigne of assignes" [value]="assigne.username">{{assigne.username}}</option>
+</select>
+</label>
+
+<label> Reporter
+<select class="form-control" [(ngModel)]="rep" [ngModelOptions]="{standalone: true}">
+<option>--Select--</option>
+<option *ngFor="let reporte of reportes" [value]="reporte.username">{{reporte.username}}</option>
+</select>
+</label>
+
+<input type="submit" class="button" value="Register" [disabled]="!tForm.valid" (click)="ticket()" />
+<input type="submit" class="button" value="Cancel" (click)="moveToLogin()" />
+
+</div>
+</div>
+</form>
+</div>
+
+
+
+
+<!-- <label> Issue
+        <input type='text' formControlName="issue" placeholder="Issue" />
+        </label>
+        <div class="alert" *ngIf=" !tForm.controls['issue'].valid && tForm.controls['issue'].touched">
+        {{ titleAlert }} </div> -->
+
+        <!-- <label> Priority
+        <input type='text' formControlName="priority" placeholder="Priority" />
+        </label>
+        <div class="alert" *ngIf=" !tForm.controls['priority'].valid && tForm.controls['priority'].touched">
+        {{ titleAlert }} </div> -->
+
+
+
+        <!-- <label> Assigne
+          <input type='text' formControlName="assigne" placeholder="Assigne To" />
+        </label>
+        <div class="alert" *ngIf=" !tForm.controls['assigne'].valid && tForm.controls['assigne'].touched">
+          {{ titleAlert }} </div> -->
+
+                  <!-- <label> Reporter
+          <input type='text' formControlName="reporter" placeholder="Reporter" />
+        </label>
+        <div class="alert" *ngIf=" !tForm.controls['reporter'].valid && tForm.controls['reporter'].touched">
+          {{ titleAlert }} </div> -->

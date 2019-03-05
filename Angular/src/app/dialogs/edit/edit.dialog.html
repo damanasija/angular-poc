@@ -1,0 +1,72 @@
+<div class="container">
+  <h3 mat-dialog-title>Update-Issue
+  </h3>
+
+  <form class="mat-dialog-content" (ngSubmit)="submit" #formControl="ngForm">
+
+    <div class="form">
+      <mat-form-field color="accent">
+        <input matInput #input class="form-control" placeholder=" Project " [(ngModel)]="data.project" name="project" required >
+        <mat-error *ngIf="formControl.invalid">{{getErrorMessage()}}</mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form">
+      <mat-form-field color="accent">
+        <textarea matInput #input class="form-control" placeholder="Summary" [(ngModel)]="data.summary" name="summary" required ></textarea>
+        <mat-error *ngIf="formControl.invalid">{{getErrorMessage()}}</mat-error>
+      </mat-form-field>
+    </div>
+    
+    <div class="form">
+      <mat-form-field color="accent">
+    <input matInput #input type="text" class="form-control" placeholder="Issue" [(ngModel)]="data.issue" form="ngForm" name="issue" [matAutocomplete]="auto" required/>
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option *ngFor="let issue of issues" [value]="issue.issues_name">
+            {{issue.issues_name}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+    
+    <div class="form">
+      <mat-form-field color="accent">
+    <input matInput #input type="text" class="form-control" placeholder="Priority" [(ngModel)]="data.priority" form="ngForm" name="priority" [matAutocomplete]="auto" required/>
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option *ngFor="let category of categories" [value]="category.category_name">
+            {{category.category_name}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+    
+    
+    <div class="form">
+      <mat-form-field color="accent">
+    <input matInput #input type="text" class="form-control" placeholder="Assigne" [(ngModel)]="data.assigne" form="ngForm" name="assigne" [matAutocomplete]="auto" required/>
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option *ngFor="let assigne of assignes" [value]="assigne.username">
+            {{assigne.username}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+        
+    <div class="form">
+      <mat-form-field color="accent">
+    <input matInput #input type="text" class="form-control" placeholder="Reporter" [(ngModel)]="data.reporter" form="ngForm" name="reporter" [matAutocomplete]="auto" required/>
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option *ngFor="let reporte of reportes" [value]="reporte.username">
+            {{reporte.username}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+
+
+    <div mat-dialog-actions>
+      <button mat-button [type]="submit" [disabled]="!formControl.valid" [mat-dialog-close]="1" (click)="stopEdit()">Save</button>
+      <button mat-button (click)="onNoClick()" tabindex="-1">Cancel</button>
+    </div>
+  </form>
+</div>

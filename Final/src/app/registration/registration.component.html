@@ -1,0 +1,29 @@
+<div>
+  <form [formGroup]="lForm">
+    <div class="form-container">
+      <div class="row columns">
+        <h1>Registration</h1>
+
+        <label> Login ID
+          <input type="text" formControlName="username" placeholder="LogIn-ID" />
+        </label>
+        <div class="alert" *ngIf=" !lForm.controls['username'].valid && lForm.controls['username'].touched">
+          {{ titleAlert }} </div>
+
+        <label> E-mail
+          <input type="text" formControlName="email" placeholder="E-mail" required pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" />
+        </label>
+        <div class="alert" *ngIf=" !lForm.controls['email'].valid && lForm.controls['email'].touched">
+          {{ titleAlert }} </div>
+        <label>Password
+          <input type='password' formControlName="password" placeholder="Password" />
+        </label>
+        <div class="alert" *ngIf=" !lForm.controls['password'].valid && lForm.controls['password'].touched">
+          {{ titleAlert }} </div>
+
+        <input type="submit" class="button" value="Register" [disabled]="!lForm.valid" (click)="register()" />
+        <input type="submit" class="button" value="Login" (click)="moveToLogin()" />
+      </div>
+    </div>
+  </form>
+</div>

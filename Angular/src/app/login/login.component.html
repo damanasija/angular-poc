@@ -1,0 +1,27 @@
+<div>
+  <form [formGroup]="rForm" (ngSubmit)="login()">
+    <div class="form-container">
+      <div class="row columns">
+
+        <h1>Login</h1>
+
+        <label> Login ID
+          <input type="text" #u1 formControlName="username" placeholder="LogIn-ID" />
+        </label>
+        <div class="alert" *ngIf=" !rForm.controls['username'].valid && rForm.controls['username'].touched">
+          {{ titleAlert }} </div>
+
+        <label>Password
+          <input type='password' #p2 formControlName="password" placeholder="Password" />
+        </label>
+        <div class="alert" *ngIf=" !rForm.controls['password'].valid && rForm.controls['password'].touched">
+          {{ titleAlert }} </div>
+
+        <input type="submit" class="button" value="LogIN" [disabled]="!rForm.valid" />
+        <input type="submit" class="button" value="Registration" (click)="moveToRegister()" />
+
+        <!-- (click)="check( u1.value, p2.value)" -->
+      </div>
+    </div>
+  </form>
+</div>
