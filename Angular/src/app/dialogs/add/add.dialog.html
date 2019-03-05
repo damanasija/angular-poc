@@ -34,8 +34,8 @@
     <div class="form">
       <mat-form-field color="accent">
         <input matInput #input type="text" class="form-control" placeholder="Priority" [(ngModel)]="data.priority"
-          form="ngForm" name="priority" [matAutocomplete]="auto" required />
-        <mat-autocomplete #auto="matAutocomplete">
+          form="ngForm" name="priority" [matAutocomplete]="autoNew" required />
+        <mat-autocomplete #autoNew="matAutocomplete">
           <mat-option *ngFor="let category of categories" [value]="category.category_name">
             {{category.category_name}}
           </mat-option>

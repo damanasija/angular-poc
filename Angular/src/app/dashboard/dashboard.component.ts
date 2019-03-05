@@ -40,7 +40,7 @@ export class DashboardComponent implements OnInit {
   }
 
   logout() {
-    localStorage.removeItem('token');
+    localStorage.removeItem('username');
     this.routes.navigate(['/login']);
   }
 

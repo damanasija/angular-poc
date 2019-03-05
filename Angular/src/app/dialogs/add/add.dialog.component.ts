@@ -52,6 +52,7 @@ ngOnInit() {
   console.log(data);
     if (data.success) {
       this.categories = data.mainCategories;
+      console.log(this.categories);
      console.log('Ready Drop down for Priority');
   } else {
      console.log('Fail Drop down for Priority');
