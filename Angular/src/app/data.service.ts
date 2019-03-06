@@ -27,10 +27,10 @@ export class DataService {
   }
 
   /** CRUD METHODS */
-  getAllIssues() {
+  getAllIssues(extensionUrl: string) {
     const headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json');
-    return this.httpClient.get<Issue[]>(this.API_URL).subscribe(data => {
+    return this.httpClient.get<Issue[]>(this.API_URL + extensionUrl).subscribe(data => {
       this.dataChange.next(data);
     },
       (error: HttpErrorResponse) => {
@@ -131,6 +131,7 @@ export class DataService {
     });
   }
   login(body: any) {
+    console.log("here");
     return this.httpClient.post('http://localhost:3000/routes/login', body, {
       observe: 'body',
       headers: new HttpHeaders().append('Content-type', 'application/json')
@@ -138,7 +139,9 @@ export class DataService {
       console.log(response);
       let isAuthenticated: boolean = (<any>response).status === '1';
       if (isAuthenticated) {
+        console.log((<any>response).data._id);
         localStorage.setItem('username', body.username);
+        localStorage.setItem('userId', (<any>response).data._id);
       }
       return isAuthenticated;
     }));

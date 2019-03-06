@@ -16,6 +16,11 @@ const UserSchema = new Schema({
   password: {
     type: String,
     required: true
+  },
+  type: {
+    type: String,
+    enum: ['developer', 'tester', 'manager'],
+    required: true
   }
 });
 

@@ -41,6 +41,7 @@ export class DashboardComponent implements OnInit {
 
   logout() {
     localStorage.removeItem('username');
+    localStorage.removeItem('userId');
     this.routes.navigate(['/login']);
   }
 
@@ -162,7 +163,7 @@ export class ExampleDataSource extends DataSource<Issue> {
       this._paginator.page
     ];
 
-    this._exampleDatabase.getAllIssues();
+    this._exampleDatabase.getAllIssues('ticket/' + localStorage.getItem('userId'));
 
 
     return merge(...displayDataChanges).pipe(map( () => {

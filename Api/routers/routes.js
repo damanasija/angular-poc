@@ -6,6 +6,17 @@ const Categories = require('../models/categories');
 const Issues = require('../models/issues');
 const ObjectId = require('mongodb').ObjectID;
 
+
+
+const dataResponseMethod = (error, records) => {
+  if(error) {
+    console.log(error)
+    res.status(500).send(error);
+  } else {
+    res.status(202).send(records);
+  }
+};
+
 router.use((req, res, next) => {
   // console.log("Routing happens");
   next();
@@ -15,15 +26,15 @@ router.post("/signup", (req, res) => {
   let newUser = new User({
     username: req.body.username,
     email: req.body.email,
-    password: req.body.password
-
+    password: req.body.password,
+    type: req.body.type
   });
   newUser.save((err, doc) => {
     if (err) {
       console.log(err.errmsg);
-      return;
+      return res.status(500).send(err);
     } else {
-      res.send(doc);
+      res.status(201).send(doc);
       console.log(doc);
     }
   });
@@ -33,10 +44,14 @@ router.post("/login", (req, res) => {
   const query = User.where({
     $and: [{ username: req.body.username }, { password: req.body.password }]
   });
-  query.findOne((err, User) => {
+  query.findOne((err, foundUser) => {
     try {
-      if (User) {
-        res.status(200).json({ "status": "1", "data": User });
+      if (foundUser) {
+        res.status(200).json(
+          {
+            "status": "1",
+            "data": foundUser
+          });
 
       } else {
         res.status(200).json({ "status": "0", "message": "Invalid" });
@@ -49,7 +64,7 @@ router.post("/login", (req, res) => {
 
 router.post("/", (req, res) => {
   let newTicket = new Ticket({
-    projectname: req.body.project,
+    project: req.body.project,
     summary: req.body.summary,
     issue: req.body.issue,
     priority: req.body.priority,
@@ -121,15 +136,50 @@ router.get('/', (req, res) => {
   });
 })
 
-router.get('/ticket/:name', (req, res) => {
-  console.log(req.params.name);
-  let data;
-  Ticket.find({reporter: req.params.name}, (error, records) => {
+router.get('/ticket/:id', (req, res) => {
+  let id = req.params.id;
+  console.log(id);
+  if(!id) {
+    console.log("id not present");
+    return res.status(403).send("not authorized");
+  }
+  User.findById(id, (error, user) => {
     if(error) {
       console.log(error)
       res.status(500).send(error);
     } else {
-      res.status(202).send(records);
+      if(!user) {
+        console.log("no such user");
+        return res.status(404).send("user not found");
+      }
+      console.log(user);
+      let type = user.type;
+      if(type == undefined) {
+        return res.status(403).send("not allowed");
+      }
+      if(type === "manager") {
+        Ticket.find({}, (error, records) => {
+          if(error) {
+            console.log(error)
+            return res.status(500).send(error);
+          } else {
+            console.log(records);
+            return res.status(202).send(records);
+          }
+        });
+      } else if(type === "developer" || type === "tester"){
+        Ticket.find({reporter: user.username}, (error, records) => {
+          if(error) {
+            console.log(error)
+            return res.status(500).send(error);
+          } else {
+            console.log(records);
+            return res.status(202).send(records);
+          }
+        });
+      } else {
+        return res.status(404).send("user typo not found");
+      }
     }
   });
 });

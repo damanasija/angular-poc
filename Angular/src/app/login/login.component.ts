@@ -28,10 +28,20 @@ export class LoginComponent implements OnInit {
     this.routes.navigate(['/Registration']);
   }
 
+  ngAfterViewInit() {
+    console.log("in login component");
+    let username = localStorage.getItem('username');
+    if(username != null && username != undefined) {
+      console.log(username);
+      this.routes.navigate(['/Dashboard']);
+    }
+  }
+
   login() {
     if (!this.rForm.valid) {
       console.log('invalid Form'); return;
     }
+    console.log(this.rForm.value);
     this.service.login(this.rForm.value)
       .pipe(first())
       .subscribe((isAuth: boolean) => {
